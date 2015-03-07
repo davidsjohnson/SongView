@@ -4,6 +4,7 @@
 # (via Spotify ID).  
 
 import sys
+import os
 import numpy as np
 
 from pyechonest import track
@@ -32,7 +33,7 @@ def analyzeID(id):
 
 def generateCSV(t):
 
-    filename = t.title + ".csv"
+    filename = os.path.dirname(os.path.realpath(__file__)) + "/" + t.title + ".csv"
 
     csvArray = np.zeros( (len(t.segments), 13) ) # 12 pitches 1 for loudness
 

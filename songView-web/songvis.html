@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <title> SongView </title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="styles/main.css">
+
+        <script type="text/javascript" src="javascript/d3.v3.js"> </script>
+        <script type="text/javascript" src="javascript/main.js"> </script>
+ 
+
+    </head>
+
+
+    <body>
+        <script type="text/javascript">
+            //Width and height
+            var w = 750;
+            var h = 150;
+            var rectW = 3;
+            var rectH = 4;
+            var sidePadding = 10;
+            var bottomPadding = 10;
+            var pitchPadding = 1;
+
+            var loudnessPadding = 7;
+            var loudnessMaxH = 15;
+            var loudnessMin = -60;
+            var loudnessMax = 0;
+
+            var loudnessScale = d3.scale.linear()
+                                    .domain([loudnessMin, loudnessMax])
+                                    .range([0, loudnessMaxH]);
+
+
+            //Create SVG element
+            var svg = d3.select("body")
+                        .append("svg")
+                        .attr("width", w)
+                        .attr("height", h);
+
+            d3.text("Sigur 1 (Untitled).csv", function(text) {
+                var songdata = d3.csv.parseRows(text).map(function(row) {
+                    return row.map(function(value) {
+                        return +value;
+                    });
+                });      
+
+                for(var idx=0; idx<songdata.length; idx++){
+
+                    svg.selectAll("rect"+idx)
+                        .data(songdata[idx].slice(0,12))
+                        .enter()
+                        .append("rect")
+                        .attr("x", function(d){
+                            return sidePadding + (idx * rectW);
+                        })
+                        .attr("y", function(d,i){
+                            return h - bottomPadding - (i * (rectH + pitchPadding));
+                        })
+                        .attr("width", rectW)
+                        .attr("height", rectH)
+                        .attr("fill", "teal")
+                        .attr("fill-opacity", function(d){
+                            return d;
+                        });
+
+                    svg.selectAll("loudRect"+idx)
+                        .data(songdata[idx].slice(12, 13))
+                        .enter()
+                        .append("rect")
+                        .attr("x", function(d){
+                            return sidePadding + (idx * rectW);
+                        })
+                        .attr("y", function(d){
+                            height = loudnessScale(d);
+                            return h - bottomPadding - (13 * (rectH + pitchPadding) - loudnessPadding) - height;
+                        })
+                        .attr("width", rectW)
+                        .attr("height", function(d){
+                            return loudnessScale(d);
+                        });
+                };
+            });
+
+        </script>
+
+    </body>
+
+
+</html>
