@@ -18,9 +18,9 @@
     <body>
         <script type="text/javascript">
             //Width and height
-            var w = 750;
-            var h = 150;
-            var rectW = 3;
+            var w = 1400;
+            var h = 100;
+            var rectW = 1;
             var rectH = 4;
             var sidePadding = 10;
             var bottomPadding = 10;
@@ -86,6 +86,106 @@
                 };
             });
 
+            //Create SVG element
+            var svg2 = d3.select("body")
+                        .append("svg")
+                        .attr("width", w)
+                        .attr("height", h);
+
+            d3.text("Down On My Luck.csv", function(text) {
+                var songdata = d3.csv.parseRows(text).map(function(row) {
+                    return row.map(function(value) {
+                        return +value;
+                    });
+                });      
+
+                for(var idx=0; idx<songdata.length; idx++){
+
+                    svg2.selectAll("rect"+idx)
+                        .data(songdata[idx].slice(0,12))
+                        .enter()
+                        .append("rect")
+                        .attr("x", function(d){
+                            return sidePadding + (idx * rectW);
+                        })
+                        .attr("y", function(d,i){
+                            return h - bottomPadding - (i * (rectH + pitchPadding));
+                        })
+                        .attr("width", rectW)
+                        .attr("height", rectH)
+                        .attr("fill", "teal")
+                        .attr("fill-opacity", function(d){
+                            return d;
+                        });
+
+                    svg2.selectAll("loudRect"+idx)
+                        .data(songdata[idx].slice(12, 13))
+                        .enter()
+                        .append("rect")
+                        .attr("x", function(d){
+                            return sidePadding + (idx * rectW);
+                        })
+                        .attr("y", function(d){
+                            height = loudnessScale(d);
+                            return h - bottomPadding - (13 * (rectH + pitchPadding) - loudnessPadding) - height;
+                        })
+                        .attr("width", rectW)
+                        .attr("height", function(d){
+                            return loudnessScale(d);
+                        });
+                };
+            });
+
+
+            //Create SVG element
+            var svg3 = d3.select("body")
+                        .append("svg")
+                        .attr("width", w)
+                        .attr("height", h);
+
+            d3.text("Miracle Of Mary.csv", function(text) {
+                var songdata = d3.csv.parseRows(text).map(function(row) {
+                    return row.map(function(value) {
+                        return +value;
+                    });
+                });      
+
+                for(var idx=0; idx<songdata.length; idx++){
+
+                    svg3.selectAll("rect"+idx)
+                        .data(songdata[idx].slice(0,12))
+                        .enter()
+                        .append("rect")
+                        .attr("x", function(d){
+                            return sidePadding + (idx * rectW);
+                        })
+                        .attr("y", function(d,i){
+                            return h - bottomPadding - (i * (rectH + pitchPadding));
+                        })
+                        .attr("width", rectW)
+                        .attr("height", rectH)
+                        .attr("fill", "teal")
+                        .attr("fill-opacity", function(d){
+                            return d;
+                        });
+
+                    svg3.selectAll("loudRect"+idx)
+                        .data(songdata[idx].slice(12, 13))
+                        .enter()
+                        .append("rect")
+                        .attr("x", function(d){
+                            return sidePadding + (idx * rectW);
+                        })
+                        .attr("y", function(d){
+                            height = loudnessScale(d);
+                            return h - bottomPadding - (13 * (rectH + pitchPadding) - loudnessPadding) - height;
+                        })
+                        .attr("width", rectW)
+                        .attr("height", function(d){
+                            return loudnessScale(d);
+                        });
+                };
+            });
         </script>
 
     </body>
