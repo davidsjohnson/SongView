@@ -1,0 +1,23 @@
+body{
+	font-family: ubuntu, sans;
+	font-size: 10pt;
+}
+
+#searchBar{
+	width: 100%;
+	border: 1px solid;
+}
+
+
+#results{
+	width: 100%;
+}
+
+.songItem{
+	border: 1px  dotted gray;
+}
+
+.nameArtist{
+	font-weight: bold;
+	color: grey;
+}
