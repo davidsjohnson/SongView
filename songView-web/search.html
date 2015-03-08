@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	
+	<link href="css/main.css" rel="stylesheet">
+	<title>Songview - Search</title>
+	<script type="text/javascript" src="javascript/d3.v3.min.js"> </script>
+	<script type="text/javascript" src="javascript/jquery-2.1.3.min.js"> </script>
+
+	<script type="text/javascript" src="javascript/songview.js"> </script>
+	<script type="text/javascript" src="javascript/search.js"> </script>
+</head>
+<body>
+
+<div id="searchBar">
+
+	<table>
+		<tbody>
+			<tr>
+				<td>
+					<input type="text" id="strQuery"> 
+				</td>
+				<td>
+					<select id="typeQuery">
+						<option id="description">Description</option>
+						<option id="artist">Artist</option>
+						<option id="title">Title</option>
+						
+					</select>
+				</td>
+				<td>
+					<button type="button" onclick="javascript:search()">Search</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<div id="loadingIndicator" style="display:none">Loading...</div>
+</div>
+<div id="results">
+</div>
+
+
+</body>
+</html>

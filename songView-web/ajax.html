@@ -1,0 +1,102 @@
+<html>
+	<head>
+	    <script type="text/javascript" src="javascript/d3.v3.min.js"> </script>
+		<script type="text/javascript" src="javascript/jquery-2.1.3.min.js"> </script>
+	</head>
+	<body>
+	
+		<script>
+			
+			var URL_ECHONEST_API = "http://developer.echonest.com/api/v4/";
+			var API_KEY= 'WMROE86FA97XXFS4I';
+		
+			//track/profile?api_key=&format=json&id=TRTLKZV12E5AC92E11&bucket=audio_summary'
+		
+			/*$.getJSON(URL_ECHONEST_API + track, {
+				
+			}, function(r) {
+				
+				if( r.response.status.code == 0 ){
+					return r.track;	
+				}else{
+					return null;
+				}
+				
+			});*/
+			
+			
+			function getSong(query, okAction, erroAction){
+				
+				var responseS = null;
+				
+				$.getJSON(URL_ECHONEST_API + 'song/search' + '?format=json&api_key='+API_KEY, 
+					query, 
+					function(r) {					
+						if( r.response.status.code == 0 ){
+							
+							okAction.call(this, r);
+							
+						}else{
+							errorAction.call(this);
+						}
+					
+				});
+			}
+			
+			
+			function getTrackDetails(idTrack, okAction, erroAction){
+				var responseS = null;
+				console.log('abc');
+				$.getJSON(URL_ECHONEST_API + 'track/profile' + '?format=json&api_key='+API_KEY+'&id='+idTrack, 
+					{}, 
+					function(r) {					
+						if( r.response.status.code == 0 ){
+							
+							
+							okAction.call(this, r);
+							
+						}else{
+							errorAction.call(this);
+						}
+					
+				});
+			}
+			
+			
+			getSong({
+				title: '%El Scorcho%',
+				//artist: '%sinatra%'
+			}, function(r){
+				responseS = r;
+				console.log(responseS);
+				
+				
+				var okAction = function(r){
+					
+					console.log(r);
+					d3.select("body").append("p")
+					.text(r.response.track.id);
+					
+				}
+				
+				console.log(1);
+				 getTrackDetails(r.response.songs[0].id, okAction, function(e){console.log(e)});
+				 console.log(2);
+			}, function(r){ console.log(r);} );
+			
+			
+			
+			var okAction = function(r){
+				console.log("Return");
+				d3.select("body").append("p")
+				.text(r.response.track.title)
+				console.log(r);
+			}
+			
+			
+			
+			
+		</script>
+	
+	</body>
+</html>
