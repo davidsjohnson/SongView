@@ -1,8 +1,25 @@
+var URL_ECHONEST_API = "http://developer.echonest.com/api/v4/";
+var API_KEY= 'WMROE86FA97XXFS4I';
 
+function getTrack(){
 
-function generateSongView(){
+    var trackID = $('#trackID').val();
 
-    var trackCSV = $('#csvFilename').val();
+    // request the track analysis
+    $.getJSON(URL_ECHONEST_API + 'track/profile' + '?format=json&api_key='+API_KEY+'&id='+trackID+"&bucket=audio_summary",   
+        function(data) {
+
+            // analysis returned to URL. Now we need to get the full detailed data
+            analysisUrl = data.response.track.audio_summary.analysis_url;
+            $.getJSON(analysisUrl,
+                function(songData){
+                    // generate visualization using full analysis data
+                    generateSongView(songData)
+                });      
+        });
+}
+
+function generateSongView(songData){
 
     //SVG Width and height
     var w = 1400;
@@ -13,7 +30,7 @@ function generateSongView(){
     //Individual Pitch Box Dimensions
     var rectW = 1;
     var rectH = 4;
-    var pitchPadding = 1;  // Veritical Padding
+    var pitchPadding = 1;  // Vertical Padding
 
     // Loudness Dimensions (uses width of Pitch boxes)
     var loudnessPadding = 7;
@@ -32,55 +49,46 @@ function generateSongView(){
                 .append("svg")
                 .attr("width", w)
                 .attr("height", h);
+   
 
-    // Get Track Data from CSV (Just temporary until this handles JSON response)
-    d3.text(trackCSV, function(text) {
-        var songdata = d3.csv.parseRows(text).map(function(row) {
-            return row.map(function(value) {
-                return +value;
+
+    // For all segements
+    for(var idx=0; idx<songData.segments.length; idx++){
+
+        // UPDATE to summarize the data
+        // Draw the 12 boxes representing pitch
+        svg.selectAll("rect"+idx)
+            .data(songData.segments[idx].pitches)
+            .enter()
+            .append("rect")
+            .attr("x", function(d){
+                return sidePadding + (idx * rectW);
+            })
+            .attr("y", function(d,i){
+                return h - bottomPadding - (i * (rectH + pitchPadding));
+            })
+            .attr("width", rectW)
+            .attr("height", rectH)
+            .attr("fill", "teal")
+            .attr("fill-opacity", function(d){
+                return d;
             });
-        });      
 
-        // On Callback draw the vis
-
-        // For all segements
-        for(var idx=0; idx<songdata.length; idx++){
-
-            // UPDATE to summarize the data
-            // Draw the 12 boxes representing pitch
-            svg.selectAll("rect"+idx)
-                .data(songdata[idx].slice(0,12))
-                .enter()
-                .append("rect")
-                .attr("x", function(d){
-                    return sidePadding + (idx * rectW);
-                })
-                .attr("y", function(d,i){
-                    return h - bottomPadding - (i * (rectH + pitchPadding));
-                })
-                .attr("width", rectW)
-                .attr("height", rectH)
-                .attr("fill", "teal")
-                .attr("fill-opacity", function(d){
-                    return d;
-                });
-
-            // Draw the box representing loudness
-            svg.selectAll("loudRect"+idx)
-                .data(songdata[idx].slice(12, 13))
-                .enter()
-                .append("rect")
-                .attr("x", function(d){
-                    return sidePadding + (idx * rectW);
-                })
-                .attr("y", function(d){
-                    height = loudnessScale(d);
-                    return h - bottomPadding - (13 * (rectH + pitchPadding) - loudnessPadding) - height;
-                })
-                .attr("width", rectW)
-                .attr("height", function(d){
-                    return loudnessScale(d);
-                });
-        };
-    });
+        // Draw the box representing loudness
+        svg.selectAll("loudRect"+idx)
+            .data([songData.segments[idx].loudness_max])
+            .enter()
+            .append("rect")
+            .attr("x", function(d){
+                return sidePadding + (idx * rectW);
+            })
+            .attr("y", function(d){
+                height = loudnessScale(d);
+                return h - bottomPadding - (13 * (rectH + pitchPadding) - loudnessPadding) - height;
+            })
+            .attr("width", rectW)
+            .attr("height", function(d){
+                return loudnessScale(d);
+            });
+    };
 }
