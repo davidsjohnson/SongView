@@ -24,7 +24,7 @@ function getSong(queryO, okAction, erroAction){
 }
 			
 			
-function getTrackDetails(idTrack, okAction, erroAction){
+function getTrack(){
 	var responseS = null;
 	$.getJSON(URL_ECHONEST_API + 'track/profile' + '?format=json&api_key='+API_KEY+'&id='+idTrack, 
 	{}, 
