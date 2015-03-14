@@ -1,7 +1,7 @@
 var URL_ECHONEST_API = "http://developer.echonest.com/api/v4/";
 var API_KEY= 'WMROE86FA97XXFS4I';
 
-function getSong(queryO, okAction, erroAction){
+function getSong(queryO, okAction, errorAction){
 				
 				var responseS = null;
 				
@@ -14,11 +14,12 @@ function getSong(queryO, okAction, erroAction){
 				    	 if( json.response.status.code == 0 ){	
 							okAction.call(this, json);	
 						}else{
+							console.log('Managed Error');
 							errorAction.call(this);
 						}
 				     },
-				     error:function(){
-				         alert("Error");
+				     error:function(r,e){
+				         errorAction.call(this,r,e);
 				     }      
 				});
 }
