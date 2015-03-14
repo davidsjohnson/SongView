@@ -76,7 +76,7 @@ function generateSongView(songData){
 
         // Draw the box representing loudness
         svg.selectAll("loudRect"+idx)
-            .data([songData.segments[idx].loudness_max])
+            .data([(songData.segments[idx].loudness_max + songData.segments[idx].loudness_start)/2])
             .enter()
             .append("rect")
             .attr("x", function(d){
@@ -89,6 +89,15 @@ function generateSongView(songData){
             .attr("width", rectW)
             .attr("height", function(d){
                 return loudnessScale(d);
-            });
+            })
+            .attr("class", "loudness");
+
+        lineY = h - bottomPadding - (13 * (rectH + pitchPadding) - loudnessPadding) - loudnessMaxH
+        svg.append("line")
+            .attr("x1", sidePadding)
+            .attr("y1", lineY)
+            .attr("x2", songData.segments.length * rectW + sidePadding)
+            .attr("y2", lineY)
+            .attr("class", "loudness");
     };
 }
