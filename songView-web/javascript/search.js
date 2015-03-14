@@ -44,6 +44,7 @@ function search(  ){
 	
 	queryObj.start = initReg;
 	queryObj.results = maxRegsPerPage;
+	queryObj.bucket = 'id:spotify' ;
 	
 	tmpCurrentPage = currentPage;
 	$('#loadingIndicator').show();
@@ -59,14 +60,18 @@ function search(  ){
 			if(listSongs.length > 0){
 				
 				
+				
 				$.each(listSongs, function( idx, obj ){
+					
+					var foreign_id = obj.artist_foreign_ids[0].foreign_id;
+					
 					$('#results').append('<div class="songItem">'+
 							'<table><tbody>'+
 								'<tr>'+
 									'<td class="nameArtist">'+ obj.artist_name +'</td>'+
 								'</tr>' +
 								'<tr>'+
-									'<td class="titleSong"><a href="songvis.html?idSong='+obj.id+'">'+ obj.title +'</a></td>' +
+									'<td class="titleSong"><a href="songvis.html?idSong='+foreign_id+'">'+ obj.title +'</a></td>' +
 								'</tr>' +
 							'</tbody></table>'+
 					'</div>');
