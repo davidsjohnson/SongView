@@ -20,11 +20,11 @@ function search(  ){
 		return;
 	}
 	
-	
+	//console.log( typeOption );
 	var queryObj = {};
-	if( typeOption == 'Description' ){
+	if( typeOption == 'Artist and title' ){
 		queryObj = {
-				description: txtSearch
+				combined: txtSearch
 		}
 	}else if(typeOption == 'Artist'){
 		queryObj = {
@@ -44,7 +44,7 @@ function search(  ){
 	
 	queryObj.start = initReg;
 	queryObj.results = maxRegsPerPage;
-	queryObj.bucket = 'id:spotify' ;
+	//queryObj.bucket = ['id:spotify','tracks'] ;
 	
 	tmpCurrentPage = currentPage;
 	$('#loadingIndicator').show();
@@ -63,7 +63,7 @@ function search(  ){
 				
 				$.each(listSongs, function( idx, obj ){
 					
-					var foreign_id = obj.artist_foreign_ids[0].foreign_id;
+					var foreign_id = obj.tracks[0].foreign_id;
 					
 					$('#results').append('<div class="songItem">'+
 							'<table><tbody>'+

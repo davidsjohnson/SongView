@@ -6,7 +6,7 @@ function getSong(queryO, okAction, errorAction){
 				var responseS = null;
 				
 				$.ajax({
-				     url: URL_ECHONEST_API + 'song/search' + '?format=json&api_key='+API_KEY,
+				     url: URL_ECHONEST_API + 'song/search' + '?format=json&api_key='+API_KEY+'&bucket=tracks&bucket=id:spotify',
 				     dataType: 'json', 
 				     data: queryO,
 				     success:function(json){
