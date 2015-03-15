@@ -1,6 +1,35 @@
 var URL_ECHONEST_API = "http://developer.echonest.com/api/v4/";
 var API_KEY= 'WMROE86FA97XXFS4I';
 
+//load the track info if present
+function getUrlVars()
+{
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for(var i = 0; i < hashes.length; i++)
+    {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+    }
+    return vars;
+}
+
+
+window.onload= ( function(){
+	var urlVars = getUrlVars();
+	
+	console.log(urlVars);
+	if( urlVars["idSong"] ){
+		console.log('a');
+		$('#trackID').val(urlVars["idSong"]);
+	}
+	
+});
+
+
+
+
 function getTrack(){
 
     var trackID = $('#trackID').val();

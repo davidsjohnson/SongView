@@ -10,9 +10,13 @@
 
 	<script type="text/javascript" src="javascript/songview.js"> </script>
 	<script type="text/javascript" src="javascript/search.js"> </script>
+	
+	
 </head>
 <body>
 
+<div id="msg" style="display:none">
+</div>
 <div id="searchBar">
 
 	<table>
@@ -23,14 +27,18 @@
 				</td>
 				<td>
 					<select id="typeQuery">
-						<option id="description">Description</option>
+						<option id="combined">Artist and title</option>
 						<option id="artist">Artist</option>
 						<option id="title">Title</option>
 						
 					</select>
 				</td>
 				<td>
-					<button type="button" onclick="javascript:search()">Search</button>
+					<button type="button" onclick="javascript:newSearch()">Search</button>
+					
+					<button type="button" onclick="javascript:backPageSongs()">Back</button>
+					
+					<button type="button" onclick="javascript:forwardPageSongs()">Forward</button>
 				</td>
 			</tr>
 		</tbody>
