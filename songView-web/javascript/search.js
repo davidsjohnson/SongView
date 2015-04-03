@@ -61,20 +61,28 @@ function search(  ){
 				
 				
 				
+				
 				$.each(listSongs, function( idx, obj ){
 					
-					var foreign_id = obj.tracks[0].foreign_id;
 					
-					$('#results').append('<div class="songItem">'+
-							'<table><tbody>'+
-								'<tr>'+
-									'<td class="nameArtist">'+ obj.artist_name +'</td>'+
-								'</tr>' +
-								'<tr>'+
-									'<td class="titleSong"><a href="songvis.html?idSong='+foreign_id+'">'+ obj.title +'</a></td>' +
-								'</tr>' +
-							'</tbody></table>'+
-					'</div>');
+					
+					if(obj.tracks.length > 0){
+						var foreign_id = obj.tracks[0].foreign_id;
+						
+						$('#results').append('<div class="songItem">'+
+								'<table><tbody>'+
+									'<tr>'+
+										'<td class="nameArtist">'+ obj.artist_name +'</td>'+
+									'</tr>' +
+									'<tr>'+
+										'<td class="titleSong"><a href="detailRecommend.html?idSong='+foreign_id+'&title='+obj.title+'&artist='+obj.artist_name+' ">'+ obj.title +'</a></td>' +
+									'</tr>' +
+								'</tbody></table>'+
+						'</div>');
+					}else{
+						//console.log(" ZZZZZZZZZZZZ ");
+						//console.log(obj.songs);
+					}				
 				});
 				noregs = false;
 			}else{

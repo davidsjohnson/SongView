@@ -11,29 +11,38 @@ function getUrlVars()
         hash = hashes[i].split('=');
         vars.push(hash[0]);
         vars[hash[0]] = hash[1];
+        
+        
+        
     }
     return vars;
 }
 
 
-/*window.onload= ( function(){
+window.onload= ( function(){
 	var urlVars = getUrlVars();
 	
 	console.log(urlVars);
 	if( urlVars["idSong"] ){
-		console.log('a');
-		$('#trackID').val(urlVars["idSong"]);
+		
+		$('#containerDetailTrack').append('p').text(decodeURI(urlVars['artist'])+" - "+ decodeURI(urlVars['title']));
+		getTrack(urlVars["idSong"], "#detailTrack");
+	}else{
+		alert('No ID specified');
 	}
 	
-});*/
+	
+});
 
 
 
 
-function getTrack(){
+function getTrack(trackId, targetId){
 
-    var trackID = $('#trackID').val();
+    var trackID = trackId;
 
+    console.log('Load');
+    $('#detailTrackLoading').show();
     // request the track analysis
     $.getJSON(URL_ECHONEST_API + 'track/profile' + '?format=json&api_key='+API_KEY+'&id='+trackID+"&bucket=audio_summary",   
         function(data) {
@@ -43,12 +52,13 @@ function getTrack(){
             $.getJSON(analysisUrl,
                 function(songData){
                     // generate visualization using full analysis data
-                    generateSongView(songData)
+                    generateSongView(songData, targetId);
+                    $('#detailTrackLoading').hide();
                 });      
         });
 }
 
-function generateSongView(songData){
+function generateSongView(songData, targetId){
 
     //SVG Width and height
     var w = 1400;
@@ -74,7 +84,7 @@ function generateSongView(songData){
 
 
     //Create SVG element for drawing an individual SongVis
-    var svg = d3.select("body")
+    var svg = d3.select( targetId )
                 .append("svg")
                 .attr("width", w)
                 .attr("height", h);
