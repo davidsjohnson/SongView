@@ -1,6 +1,8 @@
 var URL_ECHONEST_API = "http://developer.echonest.com/api/v4/";
 var API_KEY= 'WMROE86FA97XXFS4I';
 
+// var colors = [[232, 232, 25], [185, 216, 20], [139, 200, 15], [92, 184, 10], [46, 168, 5], [0, 153, 0], [0, 122, 20], [0, 91, 40], [0, 61, 61], [0, 30, 81]]
+
 //load the track info if present
 function getUrlVars()
 {
@@ -34,15 +36,16 @@ trackIds = ["spotify:track:3UN6UkL6M0l8vfZS7OffZ6",
             "spotify:track:4EBisBBehGON4ESJsNZBsP", 
             "spotify:track:7c5EpKbPpL86QVaP8yla8e", 
             "spotify:track:4IRHwIZHzlHT1FQpRa5RdE",
-            "spotify:track:7e8KTrlIt6SeImB3vM98ZF",
-            "spotify:track:7Gu2gmZdFbQzTdqz0Plx6j",
-            "spotify:track:2zkZGzzWOzGwi1rtWv7mhZ",
-            "spotify:track:2xyKOfp9MtJDhJWGXDfFem",
-            "spotify:track:3o6RpCtAPejVvTckcd5JVt",
-            "spotify:track:7HRbgpb696qbFwNJZkNSc6",
-            "spotify:track:5JB5F9iGwQqALGClKdeOky",
-            "spotify:track:0lIu6mc6W3MOFiLp6q8et4",
-            "spotify:track:4Rw5ErjPrtzAa4lJz4KfxM"]
+            "spotify:track:7e8KTrlIt6SeImB3vM98ZF"]
+
+            // "spotify:track:7Gu2gmZdFbQzTdqz0Plx6j",
+            // "spotify:track:2zkZGzzWOzGwi1rtWv7mhZ",
+            // "spotify:track:2xyKOfp9MtJDhJWGXDfFem",
+            // "spotify:track:3o6RpCtAPejVvTckcd5JVt",
+            // "spotify:track:7HRbgpb696qbFwNJZkNSc6",
+            // "spotify:track:5JB5F9iGwQqALGClKdeOky",
+            // "spotify:track:0lIu6mc6W3MOFiLp6q8et4",
+            // "spotify:track:4Rw5ErjPrtzAa4lJz4KfxM"
             
 var trackInfos = new Array(trackIds.length)
 var trackDatas = new Array(trackIds.length)
@@ -185,6 +188,10 @@ function generateSongView(trackInfo, trackData){
                         .domain([.15, .85])
                         .range(colorbrewer.YlGnBu[81]);
 
+    // var colorScale2 = d3.scale.quantize()
+    //                     .domain([.15, .85])
+    //                     .range(colors);
+
 
     // Create DIV to store Song Info and SVG
     // $("div.tracks").append("<div class='track'></div>").addClass(trackInfo.id)
@@ -286,6 +293,9 @@ function generateSongView(trackInfo, trackData){
                 .attr("width", rectW)
                 .attr("height", rectH)
                 .attr("fill", function(d){
+                    // color = colorScale2((.2 * rgbVals[0] + .5 * rgbVals[1] + .30 * rgbVals[2] ))
+                    // return d3.rgb(color[0], color[1], color[2])
+
                     return colorScale((.2 * rgbVals[0] + .5 * rgbVals[1] + .30 * rgbVals[2] ));
                 })
                 .attr("fill-opacity", function(d){
@@ -309,6 +319,12 @@ function generateSongView(trackInfo, trackData){
                     return loudnessScale(d);
                 })
                 .attr("fill", function(d){
+                    // color = colorScale2((.2 * rgbVals[0] + .5 * rgbVals[1] + .30 * rgbVals[2] ))
+
+                    // console.log("color: ", color)
+
+                    // return d3.rgb(color[0], color[1], color[2])
+
                     return colorScale((.2 * rgbVals[0] + .5 * rgbVals[1] + .30 * rgbVals[2] ));
                 })
                 .attr("fill-opacity", .6);
