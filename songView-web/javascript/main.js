@@ -16,16 +16,16 @@ function getUrlVars()
 }
 
 
-// window.onload= ( function(){
-// 	var urlVars = getUrlVars();
-	
-// 	console.log(urlVars);
-// 	if( urlVars["idSong"] ){
-// 		console.log('a');
-// 		$('#trackID').val(urlVars["idSong"]);
-// 	}
-	
-// });
+/*window.onload= ( function(){
+    var urlVars = getUrlVars();
+    
+    console.log(urlVars);
+    if( urlVars["idSong"] ){
+        console.log('a');
+        $('#trackID').val(urlVars["idSong"]);
+    }
+    
+});*/
 
 // Load n tracks at once to see check timbre...
 
