@@ -1,0 +1,6 @@
+
+function getRecommendationByArtist(idArtistEchonest){
+	
+	
+	
+}
