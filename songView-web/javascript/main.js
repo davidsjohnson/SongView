@@ -43,6 +43,7 @@ trackIds = ["spotify:track:3UN6UkL6M0l8vfZS7OffZ6",
             "spotify:track:5JB5F9iGwQqALGClKdeOky",
             "spotify:track:0lIu6mc6W3MOFiLp6q8et4",
             "spotify:track:4Rw5ErjPrtzAa4lJz4KfxM"]
+            
 var trackInfos = new Array(trackIds.length)
 var trackDatas = new Array(trackIds.length)
 
