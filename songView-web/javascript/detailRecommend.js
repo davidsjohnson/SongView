@@ -18,6 +18,19 @@ function getUrlVars()
     return vars;
 }
 
+function getPlaylistSong( songId, okAction, errorAction ){
+	var responseS = null;
+	$.getJSON(URL_ECHONEST_API + 'playlist/basic' + '?format=json&api_key='+API_KEY+'&song_id='+songId+'&type=song-radio&bucket=tracks&bucket=id:spotify&results=4', 
+	{}, 
+	function(r) {					
+	if( r.response.status.code == 0 ){
+		okAction.call(this, r);						
+	}else{
+		errorAction.call(this);
+	}
+					
+	});
+}
 
 window.onload= ( function(){
 	var urlVars = getUrlVars();
@@ -25,8 +38,32 @@ window.onload= ( function(){
 	console.log(urlVars);
 	if( urlVars["idSong"] ){
 		
-		$('#containerDetailTrack').append('p').text(decodeURI(urlVars['artist'])+" - "+ decodeURI(urlVars['title']));
-		getTrack(urlVars["idSong"], "#detailTrack");
+		console.log( urlVars["idSong"] );
+		//$('#containerDetailTrack').append('p').text(decodeURI(urlVars['artist'])+" - "+ decodeURI(urlVars['title']));
+		getTrackVol(urlVars["idSong"], "#detailTrack");
+		
+		getPlaylistSong(urlVars["sid"], function(resp){ 
+			
+			var response = resp.response;
+			var songs = response.songs;
+			console.log(songs);
+			//RECOMMENDATION
+			
+			if ( songs.length > 0  ) {
+				
+				$.each(songs, function( idx, obj ){
+					var tracks = obj.tracks;
+					if(tracks.length > 0){
+						var track = tracks[0];
+						
+						recommendationsContainer
+						getTrackVol(track.id, '#recommendationsContainer');
+						
+					}
+				});
+			}
+			
+		},function(e){ console.log(e);});
 	}else{
 		alert('No ID specified');
 	}
@@ -37,7 +74,7 @@ window.onload= ( function(){
 
 
 
-function getTrack(trackId, targetId){
+function getTrackVol(trackId, targetId){
 
     var trackID = trackId;
 
@@ -261,3 +298,5 @@ function generateSongView(trackInfo, trackData, targetId){
         }
     }
 }
+
+
