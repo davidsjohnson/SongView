@@ -20,7 +20,7 @@ function getUrlVars()
 
 function getPlaylistSong( songId, okAction, errorAction ){
 	var responseS = null;
-	$.getJSON(URL_ECHONEST_API + 'playlist/basic' + '?format=json&api_key='+API_KEY+'&song_id='+songId+'&type=song-radio&bucket=tracks&bucket=id:spotify&results=4', 
+	$.getJSON(URL_ECHONEST_API + 'playlist/basic' + '?format=json&api_key='+API_KEY+'&song_id='+songId+'&type=song-radio&bucket=tracks&bucket=id:spotify&results=5', 
 	{}, 
 	function(r) {					
 	if( r.response.status.code == 0 ){
@@ -44,10 +44,17 @@ window.onload= ( function(){
 		
 		getPlaylistSong(urlVars["sid"], function(resp){ 
 			
+			
+			
+			$('#recommendationLoading').show();
+			
 			var response = resp.response;
 			var songs = response.songs;
-			console.log(songs);
+			
 			//RECOMMENDATION
+			songs.reverse();
+			
+			songs.pop();//Discard first element (Same artist)
 			
 			if ( songs.length > 0  ) {
 				
@@ -56,8 +63,12 @@ window.onload= ( function(){
 					if(tracks.length > 0){
 						var track = tracks[0];
 						
-						recommendationsContainer
-						getTrackVol(track.id, '#recommendationsContainer');
+						
+							
+							getTrackVol(track.id, '#recommendationsContainer');
+						
+						
+						
 						
 					}
 				});
@@ -91,6 +102,7 @@ function getTrackVol(trackId, targetId){
                     // generate visualization using full analysis data
                     generateSongView(data.response.track, songData, targetId);
                     $('#detailTrackLoading').hide();
+                    $('#recommendationLoading').hide();
                 });      
         });
 }
