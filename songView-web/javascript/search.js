@@ -67,7 +67,8 @@ function search(  ){
 					
 					
 					if(obj.tracks.length > 0){
-						var foreign_id = obj.tracks[0].foreign_id;
+						console.log(obj);
+						var foreign_id = obj.tracks[0].id;//foreign_id;
 						
 						$('#results').append('<div class="songItem">'+
 								'<table><tbody>'+
@@ -75,7 +76,7 @@ function search(  ){
 										'<td class="nameArtist">'+ obj.artist_name +'</td>'+
 									'</tr>' +
 									'<tr>'+
-										'<td class="titleSong"><a href="detailRecommend.html?idSong='+foreign_id+'&title='+obj.title+'&artist='+obj.artist_name+' ">'+ obj.title +'</a></td>' +
+										'<td class="titleSong"><a href="detailRecommend.html?idSong='+foreign_id+'&title='+obj.title+'&artist='+obj.artist_name+'&sid='+obj.id+' ">'+ obj.title +'</a></td>' +
 									'</tr>' +
 								'</tbody></table>'+
 						'</div>');
