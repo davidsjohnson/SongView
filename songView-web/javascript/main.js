@@ -55,14 +55,14 @@ window.onload=( function(){
     getTracks(0)
 })
 
-var tMax = [-100, -100, -100];
-var tMin = [100, 100, 100];
+var tMax = [-100, -100, -100, -100];
+var tMin = [100, 100, 100, 100];
 function maxMinTimbre(segments){
     
     for(var i=0; i<segments.length; i++){
         var segment = segments[i];
 
-        for(var j=0; j<3; j++){
+        for(var j=0; j<tMax.length; j++){
             t = segment.timbre[j];
             if (t > tMax[j])
                 tMax[j] = t;

@@ -132,20 +132,20 @@ function generateSongView(trackInfo, trackData, targetId){
 
     //SVG Width and height
     var w = 600;//Recommended 600
-    var h = 42;
+    var h = 47;
     var sidePadding = 10;
     var bottomPadding = 5;
 
     //Individual Pitch Box Dimensions
-    var rectW = 2; // Makes graph bigger
-    var rectH = 3; // Makes graph bigger
+    var rectW = 2.5; // Makes graph bigger
+    var rectH = 2.5; // Makes graph bigger
     var horPitchPadding = 0;  // Horizontal Padding
     var vertPitchPadding = 1;
 
 
     // Loudness Dimensions (uses width of Pitch boxes)
     var loudnessPadding = 0;
-    var loudnessMaxH = 11;
+    var loudnessMaxH = 12;
 
     // Loudness scale to convert Echonest Loudness values to Height
     var loudnessMin = -60;
@@ -165,6 +165,8 @@ function generateSongView(trackInfo, trackData, targetId){
     var colorScale = d3.scale.quantize()
                         .domain([.15, .85])
                         .range(colorbrewer.YlGnBu[81]);
+
+    var transparencyScale = d3.scale.pow().exponent(1.15)
 
 
     // Create DIV to store Song Info and SVG
@@ -203,6 +205,8 @@ function generateSongView(trackInfo, trackData, targetId){
     var pitchTots = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     var loudnessTot = 0
     var timbreTots = [0, 0, 0]
+
+    var movingX = sidePadding
 
     // for(; barIdx<trackData.bars.length; segIdx++){      // For all bars
     for(; segIdx<trackData.segments.length && barIdx<trackData.bars.length; segIdx++){  
@@ -270,18 +274,19 @@ function generateSongView(trackInfo, trackData, targetId){
                 .enter()
                 .append("rect")
                 .attr("x", function(d){
-                    return sidePadding + ((barIdx-1) * rectW) + (barBreaks * vertPitchPadding);
+                    return movingX
+                    // return sidePadding + ((barIdx-1) * rectW) + (barBreaks * vertPitchPadding);
                 })
                 .attr("y", function(d,i){
                     return h - bottomPadding - (i * (rectH + horPitchPadding));
                 })
-                .attr("width", rectW)
+                .attr("width", (bar.duration * 1.5))
                 .attr("height", rectH)
                 .attr("fill", function(d){
-                    return colorScale((.2 * rgbVals[0] + .5 * rgbVals[1] + .30 * rgbVals[2] ));
+                    return colorScale((.15 * rgbVals[0] + .55 * rgbVals[1] + .30 * rgbVals[2] ));
                 })
                 .attr("fill-opacity", function(d){
-                    return d;
+                    return transparencyScale(d);
                 });
 
             // Draw the box representing loudness
@@ -290,20 +295,23 @@ function generateSongView(trackInfo, trackData, targetId){
                 .enter()
                 .append("rect")
                 .attr("x", function(d){
-                    return sidePadding + ((barIdx-1) * rectW) + (barBreaks * vertPitchPadding);
+                    return movingX
+                    // return sidePadding + ((barIdx-1) * rectW) + (barBreaks * vertPitchPadding);
                 })
                 .attr("y", function(d){
                     height = loudnessScale(d);
                     return h - bottomPadding - (11 * (rectH + horPitchPadding) - loudnessPadding) - height;
                 })
-                .attr("width", rectW)
+                .attr("width", (bar.duration * 1.5))
                 .attr("height", function(d){
                     return loudnessScale(d);
                 })
                 .attr("fill", function(d){
-                    return colorScale((.2 * rgbVals[0] + .5 * rgbVals[1] + .30 * rgbVals[2] ));
+                    return colorScale((.15 * rgbVals[0] + .55 * rgbVals[1] + .30 * rgbVals[2] ));
                 })
                 .attr("fill-opacity", .6);
+
+            movingX += (bar.duration * 1.5)
 
 
 
