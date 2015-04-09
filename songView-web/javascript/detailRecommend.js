@@ -1,5 +1,6 @@
 var URL_ECHONEST_API = "http://developer.echonest.com/api/v4/";
 var API_KEY= 'WMROE86FA97XXFS4I';
+var msnry; 
 
 //load the track info if present
 function getUrlVars()
@@ -20,7 +21,7 @@ function getUrlVars()
 
 function getPlaylistSong( songId, okAction, errorAction ){
 	var responseS = null;
-	$.getJSON(URL_ECHONEST_API + 'playlist/basic' + '?format=json&api_key='+API_KEY+'&song_id='+songId+'&type=song-radio&bucket=tracks&bucket=id:spotify&results=5', 
+	$.getJSON(URL_ECHONEST_API + 'playlist/basic' + '?format=json&api_key='+API_KEY+'&song_id='+songId+'&type=song-radio&bucket=tracks&bucket=id:spotify&results=13', 
 	{}, 
 	function(r) {					
 	if( r.response.status.code == 0 ){
@@ -74,12 +75,19 @@ window.onload= ( function(){
 				});
 			}
 			
+			
+			
 		},function(e){ console.log(e);});
 	}else{
 		alert('No ID specified');
 	}
 	
-	
+	var container = document.querySelector('#recommendationsContainer');
+ 	msnry = new Masonry( container, {
+ 	  // options
+ 	  columnWidth: 200,
+ 	  itemSelector: '.track'
+ 	});
 });
 
 
@@ -103,7 +111,13 @@ function getTrackVol(trackId, targetId){
                     generateSongView(data.response.track, songData, targetId);
                     $('#detailTrackLoading').hide();
                     $('#recommendationLoading').hide();
+                    
+                    msnry.reloadItems();
+                    msnry.layout();
                 });      
+            
+            
+           
         });
 }
 
@@ -117,14 +131,14 @@ function generateSongView(trackInfo, trackData, targetId){
     var tMin = [0, -308.285, -186.254]
 
     //SVG Width and height
-    var w = 1400;
+    var w = 600;//Recommended 600
     var h = 42;
     var sidePadding = 10;
     var bottomPadding = 5;
 
     //Individual Pitch Box Dimensions
-    var rectW = 2;
-    var rectH = 2;
+    var rectW = 2; // Makes graph bigger
+    var rectH = 3; // Makes graph bigger
     var horPitchPadding = 0;  // Horizontal Padding
     var vertPitchPadding = 1;
 
@@ -156,11 +170,16 @@ function generateSongView(trackInfo, trackData, targetId){
     // Create DIV to store Song Info and SVG
     // including trackCounter to account for the same track being shown more than Once
 
+    
+    
     $('<div/>', {
         id: trackInfo.id + trackCounter + "",
         class: "track",
+        
     }).appendTo(targetId);
 
+   
+    
     $("<h5>" + trackInfo.title + "</h5><h6>" + trackInfo.artist + "</h6>").appendTo("#" + trackInfo.id + trackCounter)
 
     //Create SVG element for drawing an individual SongVis

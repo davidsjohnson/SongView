@@ -11,9 +11,31 @@
 	<script type="text/javascript" src="javascript/songview.js"> </script>
 	<script type="text/javascript" src="javascript/search.js"> </script>
 	
-	
+	<style>
+		#searchBar{
+			width: 40%;
+			text-align: left;
+			margin-left: 32%;
+			margin-top: 40px;
+		}
+		
+		h3{
+			text-align: center;
+		}
+		
+		#searchBar table{
+			width: 100%;
+		}
+		
+		#strQuery{
+			width: 100%;
+		}
+	</style>
 </head>
 <body>
+
+<h3> SongVis</h4>
+
 
 <div id="msg" style="display:none">
 </div>
@@ -34,9 +56,9 @@
 					</select>
 				</td>
 				<td>
-					<button type="button" onclick="javascript:newSearch()">Search</button>
+					<button type="button" onclick="javascript:newSearch()">Search</button> &nbsp;&nbsp;&nbsp;
 					
-					<button type="button" onclick="javascript:backPageSongs()">Back</button>
+					<button type="button" onclick="javascript:backPageSongs()">Back</button> &nbsp;&nbsp;&nbsp;
 					
 					<button type="button" onclick="javascript:forwardPageSongs()">Forward</button>
 				</td>
