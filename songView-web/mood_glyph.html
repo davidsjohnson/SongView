@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <title> SongView </title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="styles/main.css">
+
+        <script type="text/javascript" src="javascript/d3.v3.js"> </script>
+        <script type="text/javascript" src="javascript/mood_glyph.js"> </script>
+        <script type="text/javascript" src="javascript/jquery-2.1.3.min.js"> </script>
+
+        <style type="text/css">  
+            .axis path,
+            .axis line {
+                fill: none;
+                stroke: black;
+                shape-rendering: crispEdges;
+            }
+            
+            .axis text {
+                font-family: sans-serif;
+                font-size: 10px;
+            }
+        </style>
+ 	
+    </head>
+
+
+    <body>
+
+        <div class="container track-input">
+            <div class="row">
+                <div class="col-md-8">
+                    <input type="text" id="trackID" value="spotify:track:4EBisBBehGON4ESJsNZBsP">
+                    <input class="btn btn-primary" type="button" value="Generate" onclick="javascript:getTrack()">
+                </div>
+            </div>
+        </div>
+
+        <div class="container tracks">
+        </div>
+
+    </body>
+
+
+</html>
