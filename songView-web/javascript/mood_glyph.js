@@ -31,13 +31,13 @@ function generateMoodGlyph(trackInfo){
     console.log("Danceability: " + danceability)
     console.log("Valence: " + valence)
 
-    w = 250;
+    w = 300;
     h = 100;
 
 
 
     axisPadding = 20
-    arcPadding = 40
+    arcPadding = 50
     maxRadius = 35
     maxArcs = 5
 
@@ -50,9 +50,10 @@ function generateMoodGlyph(trackInfo){
                     .domain([0,1])
                     .range([arcPadding, w-arcPadding])
 
-    var arcScale = d3.scale.linear()
+    var arcVals = [0,1,2,3,4,5];
+    var arcScale = d3.scale.quantize()
                      .domain([0,1])
-                     .range([0,maxArcs])
+                     .range(arcVals)
 
     var arcSizeScale = d3.scale.linear()
                         .domain([0,1])
@@ -75,17 +76,18 @@ function generateMoodGlyph(trackInfo){
                 .attr("width", w)
                 .attr("height", h);
 
-    cx = Math.round(cxScale(valence))
-    cy = (h - axisPadding) / 2
-    radius = Math.round(radiusScale(energy))
+    cx = Math.round(cxScale(valence));
+    cy = (h - axisPadding) / 2;
+    radius = Math.round(radiusScale(energy));
     
-    numArcs = Math.round(arcScale(danceability))
-    arcSpacing = Math.round(arcWidthScale(energy))
-    arcWidth = Math.round(arcSpacing)
-    initialArcSize = Math.round(arcSizeScale(energy))
+    numArcs = arcScale(danceability);
+
+    arcSpacing = Math.round(arcWidthScale(energy));
+    arcWidth = Math.round(arcSpacing);
+    initialArcSize = Math.round(arcSizeScale(energy));
 
 
-    tickVals = ["Sad :(", "", "Happy :)"]
+    tickVals = ["Negative :(", "", "Positive :)"]
     xAxis = d3.svg.axis()
               .scale(cxScale)
               .orient("bottom")

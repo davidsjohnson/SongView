@@ -169,14 +169,12 @@ function generateMoodGlyphVol(trackInfo, placeholder){
     console.log("Valence: " + valence);
 
     w = 250;
-    h = 100;
-
-
+    h = 75;
 
     axisPadding = 20
     arcPadding = 40
-    maxRadius = 35
-    maxArcs = 5
+    maxRadius = 25
+    maxArcs = 3
 
 
     var radiusScale = d3.scale.linear()
@@ -204,7 +202,7 @@ function generateMoodGlyphVol(trackInfo, placeholder){
         class: "track",
     }).appendTo(placeholder);
 
-    $("<h5>" + trackInfo.title + "</h5><h6>" + trackInfo.artist + "</h6>").appendTo("#" + trackInfo.id + trackCounter)
+    // $("<h5>" + trackInfo.title + "</h5><h6>" + trackInfo.artist + "</h6>").appendTo("#" + trackInfo.id + trackCounter)
 
     //Create SVG element for drawing an individual SongVis
     var svg = d3.select("#" + trackInfo.id + trackCounter)
@@ -222,7 +220,7 @@ function generateMoodGlyphVol(trackInfo, placeholder){
     initialArcSize = Math.round(arcSizeScale(energy))
 
 
-    tickVals = ["Sad :(", "", "Happy :)"]
+    tickVals = ["Negative :(", "", "Positive :)"]
     xAxis = d3.svg.axis()
               .scale(cxScale)
               .orient("bottom")
